@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Lesson1</title>
+</head>
+<body>
+	<script>
+
+	/*
+		Напишите фукцию с одним аргументом. Аргумент должен быть числом от 0 до 24. Если аргумент число от 8 до 21, выведите в консоль ‘Hello’. В другом случае выведите в консоль ‘It is not good time for that’. Если аргумент не число, выведите в консоль ‘It is not a number’.
+	*/
+
+	function function1 (a) {
+		if (isNaN(a)){
+			console.log('It is not a number');
+		} else {
+			if (a >= 8 && a <= 21) {
+				console.log('Hello');
+			} else if ((a >= 0 && a < 8) || (a > 21 && a <= 24)) {
+				console.log('It is not good time for that');
+			} else {
+				//a - не з діапазону??
+			}
+		}
+	}
+
+	/*
+		Напишите функцию, которая принимает массив и буленовое значение в качестве аргументов. Если буленовое значение true, выведите в консоль найбольшее число, если false найменшее.
+	*/
+
+	//чи треба перевіряти вхідні параметри?
+
+	function maxMin (arr, mm) {
+		var res = arr[0];
+		if (mm === true) {
+			for (var i = 1; i < arr.length; i++) {
+				if (arr[i] > res){
+					res = arr[i]
+				}
+			};
+		} else if (mm === false){
+			for (var i = 1; i < arr.length; i++) {
+				if (arr[i] < res){
+					res = arr[i]
+				}
+			};
+		}
+		console.log(res);
+	}
+
+
+	/*
+		Напишите функцию, которая принимает один аргумент. Проверяет число ли это и выводит в консоль данной число в квадрате, если его можно поделить на 2 без остатка.
+	*/
+
+	//?
+
+	function function2 (a) {
+		if ((!isNaN(a)) && (!(a % 2))) {
+			console.log(a * a);
+		} else throw new Error("wrong input data");
+	}
+
+	/*
+		Напишите функцию с двумья аргументами. Если первый больше второго, выведите в консоль ихнюю разницу. Если второе больше первого, сумму.
+	*/
+
+	function function3 (a, b) {
+		if ((!isNaN(a)) && (!isNaN(b))) {
+			if (a > b){
+				console.log(a - b);
+			} else if (a < b) {
+				console.log(a + b);
+			}// else console.log("a = b");
+		} else throw new Error("wrong input data");
+	}
+
+	/*
+		Напишите функцию с двумья аргументами. Если сумма этих чисел от 11 до 19, то выведите в консоль результат. Если нет, то выведите “Result is not in range between 11 and 19”
+	*/
+
+	function function4 (a, b) {
+		if ((!isNaN(a)) && (!isNaN(b))) {
+			var sum = a + b;
+			if ((sum >= 11) && (sum <= 19)){
+				console.log(sum);
+			} else {
+				console.log("Result is not in range between 11 and 19");
+			}
+		} else throw new Error("wrong input data");
+	}
+
+	/*
+		Напишите функцию с двумья аргументами. Если один из них делится без остатка на другой. выведите true, если нет false.
+	*/
+
+	function function5 (a, b) {
+		if ((!isNaN(a)) && (!isNaN(b))) {
+			if ((!(a % b)) || (!(b % a))){
+				console.log(true);
+			} else {
+				console.log(false);
+			}
+		} else throw new Error("wrong input data");
+	}
+
+	/*
+		Напишите функцию с двумья аргументами. Сравните последние цыфри числа, используя % 
+	*/
+
+	// ??? незрозуміла умова
+
+	function function6 (a, b) {
+		if ((!isNaN(a)) && (!isNaN(b))) {
+			var a1 = a % 10,
+					b1 = b % 10;
+			if (a1 > b1){
+				console.log("The last digit of the first number is bigger");
+			} else {
+				console.log("The last digit of the first number is not bigger");
+			}
+		} else throw new Error("wrong input data");
+	}
+
+	/*
+		выведите массив используя разные типы цыклов.
+	*/
+
+	function function7 (arr) {
+		if (Array.isArray(arr)) {
+
+			//for
+
+			for (var i = 0; i < arr.length; i++) {
+				console.log(arr[i]);
+			};
+
+			//while
+
+			var i = 0;
+			while (i < arr.length){
+				console.log(arr[i]);
+				i++;
+			};
+
+			// do while
+
+			var i = 0;
+			do {
+				console.log(arr[i]);
+				i++;
+			} while(i < arr.length);
+
+			// forEach
+
+			arr.forEach(function(item, i, arr){
+				console.log(item);
+				console.log(arr[i])
+			});
+
+		} else throw new Error("wrong input data");
+	}
+
+	/*
+		Проверить является ли строка полиндромом
+	*/
+
+	function function8 (str) {
+		if ((typeof str) === "string"){
+			var arr = str.split(""),
+					arrLength = arr.length;
+			for (var i = 0; i < arrLength / 2; i++) {
+				if (arr[i] !== arr[arrLength - 1 - i]){
+					console.log("It is not a polindrome");
+					return;
+				}
+			};
+			console.log("It's polindrome");
+		} else throw new Error("wrong input data");
+	}
+
+	/*
+		Write a program that prints the integers from 1 to 100. But for multiples of three print "Fizz" instead of the number, and for the multiples of five print "Buzz". For numbers which are multiples of both three and five print "FizzBuzz"
+	*/
+
+	function fizzBuzz () {
+		for(var i = 1; i <= 100; i++){
+			if (!(i % 3)) {
+				if (!(i % 5)) {
+					console.log("FizzBuzz");
+				} else {
+					console.log("Fizz");
+				};
+			} else if (!(i % 5)) {
+				console.log("Buzz");
+			} else {
+				console.log(i);
+			};
+		};
+	}
+
+	/*
+		Написать функцию являются ли числа вампирами
+	*/
+
+	// теж умова не зовсім точна, може "чи утворюють дані два числа число вампіра?"?
+
+	function vamp (a, b) {
+		if ((!isNaN(a)) && (!isNaN(b))) {
+			var ab = String(a * b),
+					aStr = String(a),
+					bStr = String(b);
+			if ((ab.length/2 === aStr.length) && (ab.length/2 === bStr.length)){//додати перевірку закінчення на 0
+				ab = ab.split("").sort();
+				aStr = aStr.concat(bStr).split("").sort();
+				for (var i = 0; i < ab.length; i++) {
+					if (ab[i]!==aStr[i]){
+						console.log("it is not a vampire number");
+						return;
+					};
+				};
+				console.log("it's a vampire number");
+			} else console.log("it is not a vampire number");
+		} else throw new Error("wrong input data");
+	}
+	
+	</script>
+</body>
+</html>
