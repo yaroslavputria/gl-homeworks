@@ -61,7 +61,7 @@
 			if (!(a % 2)) {
 				console.log(a * a);
 			} else {
-				
+
 			};
 		} else throw new Error("wrong input data");
 	}
@@ -113,16 +113,13 @@
 		Напишите функцию с двумья аргументами. Сравните последние цыфри числа, используя % 
 	*/
 
-	// ??? незрозуміла умова
 
 	function function6 (a, b) {
 		if (((typeof a) === "number") && ((typeof b) === "number")) {
-			var a1 = a % 10,
-					b1 = b % 10;
-			if (a1 > b1){
-				console.log("The last digit of the first number is bigger");
+			if (( a % 10 ) === ( b % 10 )){
+				console.log("last digits are the same");
 			} else {
-				console.log("The last digit of the first number is not bigger");
+				console.log("last digits are not the same");
 			}
 		} else throw new Error("wrong input data");
 	}
@@ -211,11 +208,11 @@
 	// теж умова не зовсім точна, може "чи утворюють дані два числа число вампіра?"?
 
 	function vamp (a, b) {
-		if ((!isNaN(a)) && (!isNaN(b))) {
+		if (((typeof a) === "number") && ((typeof b) === "number")) {
 			var ab = String(a * b),
 					aStr = String(a),
 					bStr = String(b);
-			if ((ab.length/2 === aStr.length) && (ab.length/2 === bStr.length)){//додати перевірку закінчення на 0
+			if ((ab.length/2 === aStr.length) && (ab.length/2 === bStr.length) && !((bStr[bStr.length - 1]==="0") && (aStr[aStr.length - 1]==="0"))){
 				ab = ab.split("").sort();
 				aStr = aStr.concat(bStr).split("").sort();
 				for (var i = 0; i < ab.length; i++) {
