@@ -57,8 +57,12 @@
 	//?
 
 	function function2 (a) {
-		if ((!isNaN(a)) && (!(a % 2))) {
-			console.log(a * a);
+		if ((typeof a) === "number") {
+			if (!(a % 2)) {
+				console.log(a * a);
+			} else {
+				
+			};
 		} else throw new Error("wrong input data");
 	}
 
@@ -67,7 +71,7 @@
 	*/
 
 	function function3 (a, b) {
-		if ((!isNaN(a)) && (!isNaN(b))) {
+		if  (((typeof a) === "number") && ((typeof b) === "number"))  {
 			if (a > b){
 				console.log(a - b);
 			} else if (a < b) {
@@ -81,7 +85,7 @@
 	*/
 
 	function function4 (a, b) {
-		if ((!isNaN(a)) && (!isNaN(b))) {
+		if (((typeof a) === "number") && ((typeof b) === "number")) {
 			var sum = a + b;
 			if ((sum >= 11) && (sum <= 19)){
 				console.log(sum);
@@ -96,7 +100,7 @@
 	*/
 
 	function function5 (a, b) {
-		if ((!isNaN(a)) && (!isNaN(b))) {
+		if (((typeof a) === "number") && ((typeof b) === "number")) {
 			if ((!(a % b)) || (!(b % a))){
 				console.log(true);
 			} else {
@@ -112,7 +116,7 @@
 	// ??? незрозуміла умова
 
 	function function6 (a, b) {
-		if ((!isNaN(a)) && (!isNaN(b))) {
+		if (((typeof a) === "number") && ((typeof b) === "number")) {
 			var a1 = a % 10,
 					b1 = b % 10;
 			if (a1 > b1){
