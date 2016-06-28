@@ -17,10 +17,10 @@
 		} else {
 			if (a >= 8 && a <= 21) {
 				console.log('Hello');
-			} else if ((a >= 0 && a < 8) || (a > 21 && a <= 24)) {
+			} else if (a >= 0 && a <= 24) {
 				console.log('It is not good time for that');
 			} else {
-				//a - не з діапазону??
+				console.log('not from the given range');
 			}
 		}
 	}
@@ -29,24 +29,11 @@
 		Напишите функцию, которая принимает массив и буленовое значение в качестве аргументов. Если буленовое значение true, выведите в консоль найбольшее число, если false найменшее.
 	*/
 
-	//чи треба перевіряти вхідні параметри?
 
-	function maxMin (arr, mm) {
-		var res = arr[0];
-		if (mm === true) {
-			for (var i = 1; i < arr.length; i++) {
-				if (arr[i] > res){
-					res = arr[i]
-				}
-			};
-		} else if (mm === false){
-			for (var i = 1; i < arr.length; i++) {
-				if (arr[i] < res){
-					res = arr[i]
-				}
-			};
-		}
-		console.log(res);
+	function maxMin (arr, bool) {
+		if (Array.isArray(arr)){
+			console.log(bool ? Math.max.apply(null, arr) : Math.min.apply(null, arr));
+		} else throw new Error("wrong input data");
 	}
 
 
@@ -101,11 +88,7 @@
 
 	function function5 (a, b) {
 		if (((typeof a) === "number") && ((typeof b) === "number")) {
-			if ((!(a % b)) || (!(b % a))){
-				console.log(true);
-			} else {
-				console.log(false);
-			}
+			console.log( a % b == 0 || b % a == 0);
 		} else throw new Error("wrong input data");
 	}
 
@@ -166,18 +149,21 @@
 	/*
 		Проверить является ли строка полиндромом
 	*/
+	/* ms: works fine for me,
+		 however it might be necessary to remove spaces and put all chars to lowercase:
+		 str.trim().toLowerCase()
+		 also since you already have array you may just check this way:
+		 t = arr.reverse();
+		 if (t == arr) - palindrom or not
+	*/
 
-	function function8 (str) {
+
+	function function8 (str){
 		if ((typeof str) === "string"){
-			var arr = str.split(""),
-					arrLength = arr.length;
-			for (var i = 0; i < arrLength / 2; i++) {
-				if (arr[i] !== arr[arrLength - 1 - i]){
-					console.log("It is not a polindrome");
-					return;
-				}
-			};
-			console.log("It's polindrome");
+			var arr = str.trim().toLowerCase().split('');
+			if (arr === arr.reverse()){
+				console.log("It's polindrome");
+			} else	console.log("It is not a polindrome");
 		} else throw new Error("wrong input data");
 	}
 
