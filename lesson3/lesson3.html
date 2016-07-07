@@ -22,17 +22,23 @@
 		*/
 
 		function compareObjects(obj1, obj2, prop) {
-			return (obj1[prop] >= obj2[prop]) ? obj1[prop] : obj2[prop];
+			if ( (typeof obj1[prop] === 'number' && !isNaN(obj1[prop])) && (typeof obj2[prop] === 'number' && !isNaN(obj2[prop])) ) {
+				return (obj1[prop] >= obj2[prop]) ? obj1.name : obj2.name;
+			} else {
+				throw new Error("wron input data");
+			};
 		}
 
-		function objCreator(prop1) {
-			this.prop1 = prop1
+		function objCreator(prop1, name) {
+			this.prop1 = prop1;
+			this.name = name;
 		}
 
-		obj2 = new objCreator(20);
+		obj2 = new objCreator(20, "obj1");
 
 		obj1 = {
-			prop1: 10
+			prop1: 10,
+			name: "obj2"
 		};
 
 		console.log( compareObjects(obj1, obj2, 'prop1') );
@@ -49,11 +55,9 @@
 		*/
 
 		function createSongCollection(songNames) {
-			var resColection = [];
-			songNames.forEach( function(item) {
-				resColection.push(new Song(item));
+			return songNames.map( function(item) {
+				return new Song(item);
 			});
-			return resColection;
 		}
 
 		function Song(songName) {
@@ -105,30 +109,31 @@
 				сумму (должна совпадать)
 		*/
 
-		function Calculator() {
-			var lastIndex = 0;
-			stepNumbers = [0];
-			this.add = function(n) {
-				if ( typeof n === 'number' && !isNaN(n) ) {
-					stepNumbers.push( stepNumbers[lastIndex] + n );
-					lastIndex++;
-					return this;
-				} else {
-					throw new Error("Wrong input data");
-				};
+		function Calculator() {//але тепер lastIndex і stepNumbers - не приватні, або можна їх залишити приватними і додати для них гетери і сетери в конструктор
+			this.lastIndex = 0;
+			this.stepNumbers = [0];
+		}
+
+		Calculator.prototype.add = function(n) {
+			if ( typeof n === 'number' && !isNaN(n) ) {
+				this.stepNumbers.push( this.stepNumbers[this.lastIndex] + n );
+				this.lastIndex++;
+				return this;
+			} else {
+				throw new Error("Wrong input data");
 			};
-			this.getCurrentSum = function(index) {
-				//return (index) ? stepNumbers[index] : stepNumbers[lastIndex];
-				var resSum;
-				if (index % 1 === 0) {
-					resSum = stepNumbers[index];
-				} else if (index === undefined) {
-					resSum = stepNumbers[lastIndex];
-				} else {
-					throw new Error("Wrong input data");
-				};
-				return resSum;
+		}
+
+		Calculator.prototype.getCurrentSum = function(index) {
+			var resSum;
+			if (index % 1 === 0) {
+				resSum = this.stepNumbers[index];
+			} else if (index === undefined) {
+				resSum = this.stepNumbers[this.lastIndex];
+			} else {
+				throw new Error("Wrong input data");
 			};
+			return resSum;
 		}
 
 		var calc1 = new Calculator(),
