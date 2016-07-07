@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>lesson5</title>
+</head>
+<body>
+	<script>
+		/*
+			1 + add(1)(2) // 4
+		*/
+
+		function add(a) {
+			var res = a;
+			function sum(b) {
+				res = res + b;
+				return sum;
+			};
+			sum.toString = function() {
+				return res;
+			}
+			return sum;
+		};
+
+		console.log( 1 + add(1)(2) );
+	</script>
+	
+</body>
+</html>
