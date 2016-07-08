@@ -115,7 +115,7 @@
 			с помощью которой можно будет выводить в консоль текстовую информацию.
 		*/
 
-		function createLogger (prefix) { 
+		function createLogger(prefix) { 
     	return function (str) {
     		var currentDate = new Date();
     		currentDate = currentDate.toISOString();
@@ -130,9 +130,12 @@
 			Задача на 5+: сделать так, чтобы кастомный логгер не "ломал" коллстек.
 		*/
 
+		function createLogger(prefix) { 
+    	return console.log.bind(console, `${new Date().toISOString()} ${prefix}: ${arguments[0]}`);
+		}
 
-
-
+		var myLogger = createLogger('My Logger');
+		myLogger('some data');
 
 	</script>
 </body>
