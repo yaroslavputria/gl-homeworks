@@ -117,8 +117,7 @@
 
 		function createLogger(prefix) { 
     	return function (str) {
-    		var currentDate = new Date();
-    		currentDate = currentDate.toISOString();
+    		var currentDate = new Date().toISOString();
     		console.log(`${currentDate} ${prefix}: ${str}`);
     	};
 		}

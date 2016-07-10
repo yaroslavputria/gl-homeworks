@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Lesson6</title>
+</head>
+<body>
+	<style>
+		div {
+			margin: 0;
+			padding: 0;
+		}
+		h1 {
+			color: red;
+			font-size: 30px;
+		}
+		.my-div {
+			width: 300px;
+			text-align: center;
+		}
+		#p-1 {
+			font-size: 18px;
+		}
+		.my-ul {
+			list-style-type: square;
+			text-align: left;
+		}
+	</style>
+	<div class="my-div" id="div-1">
+		<h1>DOM</h1>
+		<p class="my-p" id="p-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam modi qui, repudiandae sapiente ex quos natus voluptatem earum aut a eum dicta officia delectus, deleniti, hic sint repellendus eaque voluptatibus!</p>
+		<ul class="my-ul" id="ul-1">
+			<li id="li-1">item 1</li>
+			<li id="li-2">item 2</li>
+			<li id="li-3">item 3</li>
+		</ul>
+	</div>
+	<script>
+		"use strict";
+		/*
+			###Задание 0:
+	
+			0. Создать функицю, которая принимает строку селектор и возвращает:
+		    	 - undefined - если ничего не найдено
+		    	 - найденую ноду - если она одна
+		    	 - массив нод - если их несколько
+		    	 - если в функцию передать ноду, функция возвращает ее тип (Node, Text, Comment etc)
+		*/
+
+		function func0(sN) {
+			var res;
+			if ( typeof sN === 'string' ) {
+				res = document.querySelectorAll(sN);
+				if ( res.length === 1 ) {
+					res = res[0];
+				} else if ( res.length === 0 ) {
+					res = undefined;
+				};
+			} else if ( sN instanceof Node ) {
+				res = sN.nodeType;
+			} else {
+				throw new Error("wron input data");
+			};
+			return res;
+		}
+
+		var allLi = func0('li'),
+			li2 = func0('#li-2');
+
+		console.log(allLi);
+		console.log(li2);
+		console.log(func0(li2));
+		console.log(func0("span"));
+
+		/*
+			1. Создать функцию, которая принимает строку селектор и возвращает:
+         - undefined - если ничего не найдено
+    	 - найденую ноду - если она одна
+    	 - первую найденную ноду - если их несколько
+		*/
+
+		function func1(sel) {
+			var res;
+			if ( typeof sel === 'string' ) {
+				res = document.querySelectorAll(sel);
+				if ( res.length === 0 ) {
+					res = undefined;
+				} else {
+					res = res[0];
+				}
+			} else{
+				throw new Error("wrong input data");
+			};
+			return res;
+		}
+
+		var firstLi = func1('li'),
+			noLi = func1('li#li-4'),
+			div1 = func1('#div-1');
+
+		console.log(firstLi);
+		console.log(noLi);
+		console.log(div1);
+
+		/*
+			2. Создать функцию аналог функции DOM insertBefore, но вставляет не до, а после указанного элемента.
+		*/
+
+		Node.prototype.insertAfter = function(newElement, referenceElement) {
+			this.insertBefore(newElement, referenceElement.nextSibling);
+		};
+
+		var p1 = document.querySelector("#p-1"),
+			parentP = p1.parentNode,
+			p2 = document.createElement('p');
+
+		p2.textContent = "Lorem ipsum dolor sit amet, consectetur adipisicing elit!";
+
+		parentP.insertAfter(p2, p1);
+
+		/*
+			3. Создать функцию, которая выдает значение аттрибута или ставит его значение.
+    	 
+    	 Чтение.
+    	 Что имеется в виду - Допустим есть элемент:
+    	 
+    	    <titanic style="float:none"></titanic>
+    	 
+    	    Если передать в функцию 'style' - она должна выдать "float:none"
+    	   
+    	    <ninja color="black" visibility="hidden"></ninja>
+    	   
+    	    Если передать в функцию 'color' - она должна выдать "black"
+    	    
+    	 Установка.
+         Что имеется в виду - Допустим есть элемент:
+         
+            <lego></lego>
+            
+            Если передать в функцию два параметра - аттрибут и значение, то нода должна выглядеть
+            
+            <lego style="display:block"></lego>
+           
+            
+            Если значение этого аттрибута уже задано, устанавливается новое значение.
+    	    
+    	    Было:
+    	    <chucknorris speed="5"></chucknorris>
+    	    
+    	    После вызова функции с передачей аттрибута и значения (speed Infinity):
+    	    <chucknorris speed="Infinity"></chucknorris>
+		*/
+
+		Element.prototype.manageAttribute = function(attr, attrValue) {
+			if ( attrValue === undefined ) {
+				if ( this.hasAttribute(attr) ) {
+					return this.getAttribute(attr);
+				} else {
+					throw new Error("there is no " + attr + " attribute");
+				};
+			} else {
+				this.setAttribute(attr, attrValue);
+			};
+		};
+
+		var div1 = document.querySelector('#div-1');
+
+		console.log(div1.manageAttribute("class"));
+		div1.manageAttribute("style", "background-color: silver");
+
+		/*
+			  4. С помощью JS создайте шахматное поле:
+        - контейнер поля
+        - 64 ребёнка (ячейки) элементы (проще позиционировать с помощью float)
+        - ячейки раскрашены белым и черным
+        - нужные аттрибуты и стили задавайте с помощью JS
+		*/
+
+		function cell(cell, cellType) {
+			cell.style.backgroundColor = (cellType) ? "black" : "white";
+			cell.style.width = 100/8 + '%';
+			cell.style.height = 100/8 + '%';
+			cell.style.display = "inline-block";
+		}
+
+		var field = document.createElement('div'),
+			tmpSpan, newRow = true;
+
+		field.style.width = "200px";
+		field.style.height = "200px";
+		field.style.fontSize = "0";
+
+		for (var i = 1; i <= 64; i++) {
+			tmpSpan = document.createElement('div');
+			if ( newRow ) {
+				cell(tmpSpan, i % 2);
+			} else {
+				cell(tmpSpan, (i + 1) % 2);
+			};
+			field.appendChild(tmpSpan);
+			if ( i % 8 === 0 ) { newRow = !newRow };
+		};
+
+		document.body.appendChild(field);
+
+		/*
+			###Задание 1 - необязательное:
+	
+			You need to find all values of attribute named "base64" in bizzare.html.
+			After that make one long string and decode it. Mind the name of attribute. Follow instructions.
+		*/
+
+		//solution in bizzare.js
+		
+	</script>
+</body>
+</html>
