@@ -181,25 +181,23 @@
 			cell.style.width = 100/8 + '%';
 			cell.style.height = 100/8 + '%';
 			cell.style.display = "inline-block";
+			return cell;
 		}
 
 		var field = document.createElement('div'),
-			tmpSpan, newRow = true;
+			tmpSpan,
+			newRow = true,
+			blackCell = cell( document.createElement('div'), true ),
+			whiteCell = cell( document.createElement('div'), false );
 
 		field.style.width = "200px";
 		field.style.height = "200px";
 		field.style.fontSize = "0";
 
 		for (var i = 1; i <= 64; i++) {
-			tmpSpan = document.createElement('div');
-			if ( newRow ) {
-				cell(tmpSpan, i % 2);
-			} else {
-				cell(tmpSpan, (i + 1) % 2);
-			};
-			field.appendChild(tmpSpan);
-			if ( i % 8 === 0 ) { newRow = !newRow };
-		};
+			field.appendChild( ((i % 2) - newRow == 0) ? whiteCell.cloneNode(false) : blackCell.cloneNode(false) );
+			if (i % 8 === 0) {newRow = !newRow};
+		}
 
 		document.body.appendChild(field);
 

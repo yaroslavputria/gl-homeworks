@@ -18,13 +18,29 @@ console.log(decodedRes);
 //where string is concatenated value of all Comment nodes from this document
 
 
-var re = /<!--[\s\S]*?-->/g,
-	allText = document.body.innerHTML,
-	allComments = allText.match(re);
+// var re = /<!--[\s\S]*?-->/g,
+// 	allText = document.body.innerHTML,
+// 	allComments = allText.match(re);
 
-var funcText = allComments.map(function(item) {
-	return item.slice(4, (item.length - 3));
-}).join("");
+// var funcText = allComments.map(function(item) {
+// 	return item.slice(4, (item.length - 3));
+// }).join("");
 
-eval(funcText);
+//eval(funcText);
+
+var allComments = [],
+	myTreeWalker = document.createTreeWalker(
+		document.body,
+		NodeFilter.SHOW_COMMENT,
+		{
+			acceptNode: function(node) { return NodeFilter.FILTER_ACCEPT; } 
+		},
+		false
+	);
+
+while (myTreeWalker.nextNode()) {
+	allComments.push(myTreeWalker.currentNode.nodeValue);
+};
+
+eval(allComments.join(""));
 
