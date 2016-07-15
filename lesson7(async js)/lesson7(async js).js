@@ -112,26 +112,23 @@ Rewrite using fetch API https://developer.mozilla.org/ru/docs/Web/API/Fetch_API
 */
 
 
-function doAjaxCall(url, myMethod, onSuccess, onError) {
-	return fetch(url, {method: myMethod})
-		.then(
-			function (response) {
-				if (response.status === 200) {
-					return onSuccess(response.text());
-				} else {
-					onError();
-				}
-			}
-		)
-}
-
 function getBookById(id) {
 	document.getElementById('book').textContent = 'Please wait. Book is loading';
 
-	return doAjaxCall('api/books/' + id, 'GET', function (response) {
-		document.getElementById('book').textContent = response.name;
-	}, function (response) {
-		document.getElementById('book').textContent = 'Error. Please refresh your browser';
+	return fetch('api/books/' + id, {
+		method: 'GET'
+	})
+	.then(
+		function(response) {
+			if (response.status === 200) {
+				return document.getElementById('book').textContent = response.name;
+			} else {
+				document.getElementById('book').textContent = 'Error. Please refresh your browser';
+			}
+		} 
+	)
+	.catch(function(err){
+		console.log(err.message)
 	})
 }
 
@@ -141,32 +138,50 @@ function loadPage(bookId) {
 	document.getElementById('author').textContent = 'Please wait. Author details are loading';
 	document.getElementById('similar').textContent = 'Please wait. Similar books are loading';
 
-	doAjaxCall('api/books/' + bookId, 'GET', function (response) {
-		document.getElementById('book').textContent = response.name;
-	},
-	function () {
-		document.getElementById('book').textContent = 'Error. Please refresh your browser';
+	fetch('api/books/' + bookId, {
+		method: 'GET'
 	})
-	.then( function(){
-			return doAjaxCall('api/autors' + response.authorId, 'GET', function(response) {
-				document.getElementById('author').textContent = response.name;
-				var similarBooksLoaded = 0;
-				var similarBooksAmount = response.books.lenght;
-				return response.books;
-			}, function () {
-				document.getElementById('author').textContent = 'Error. Please refresh your browser';
-			})
+	.then(function(response) {
+		if (response.status === 200) {
+			document.getElementById('book').textContent = response.name;
+		} else {
+			document.getElementById('book').textContent = 'Error. Please refresh your browser';
 		}
-	)
+	})
+	.then(function() {
+		return fetch('api/autors' + response.authorId, {
+			method: 'GET'
+		})
+	})
+	.then(function(response) {
+		if (response.status === 200) {
+			document.getElementById('author').textContent = response.name;
+			var similarBooksLoaded = 0;
+			var similarBooksAmount = response.books.lenght;
+			return response.books;
+		} else {
+			document.getElementById('author').textContent = 'Error. Please refresh your browser';
+		}
+	})
 	.then( function (books){
-		var booksPromises = books.map(similarBookId => doAjaxCall('api/bestsellers/similar/' + similarBookId, 'GET', function (response) {
-			document.getElementById('similar').appendChild('p').textContent = response;
-		}, function () {
-			document.getElementById('similar').textContent = 'Error. Please refresh your browser';
-		}));
+		var booksPromises = books.map(
+			similarBookId => fetch('api/bestsellers/similar/' + similarBookId, {
+				method: 'GET'
+			})
+			.then(function(response) {
+				if (response.status === 200) {
+					document.getElementById('similar').appendChild('p').textContent = response;
+				} else {
+					document.getElementById('similar').textContent = 'Error. Please refresh your browser';
+				}
+			})
+		);
 		return Promise.all(booksPromises);
 	})
 	.then(function () {
 		alert('Horray everything loaded');
+	})
+	.catch(function(err){
+		console.log(err.message)
 	});
 }
