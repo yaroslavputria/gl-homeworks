@@ -120,11 +120,8 @@ function getBookById(id) {
 	})
 	.then(
 		function(response) {
-			if (response.status === 200) {
-				return document.getElementById('book').textContent = response.name;
-			} else {
-				document.getElementById('book').textContent = 'Error. Please refresh your browser';
-			}
+			return document.getElementById('book').textContent = response.name;
+			//document.getElementById('book').textContent = 'Error. Please refresh your browser';
 		} 
 	)
 	.catch(function(err){
@@ -142,11 +139,8 @@ function loadPage(bookId) {
 		method: 'GET'
 	})
 	.then(function(response) {
-		if (response.status === 200) {
-			document.getElementById('book').textContent = response.name;
-		} else {
-			document.getElementById('book').textContent = 'Error. Please refresh your browser';
-		}
+		document.getElementById('book').textContent = response.name;
+		//document.getElementById('book').textContent = 'Error. Please refresh your browser';
 	})
 	.then(function() {
 		return fetch('api/autors' + response.authorId, {
@@ -154,14 +148,11 @@ function loadPage(bookId) {
 		})
 	})
 	.then(function(response) {
-		if (response.status === 200) {
-			document.getElementById('author').textContent = response.name;
-			var similarBooksLoaded = 0;
-			var similarBooksAmount = response.books.lenght;
-			return response.books;
-		} else {
-			document.getElementById('author').textContent = 'Error. Please refresh your browser';
-		}
+		document.getElementById('author').textContent = response.name;
+		var similarBooksLoaded = 0;
+		var similarBooksAmount = response.books.lenght;
+		return response.books;
+		//document.getElementById('author').textContent = 'Error. Please refresh your browser';
 	})
 	.then( function (books){
 		var booksPromises = books.map(
@@ -169,11 +160,8 @@ function loadPage(bookId) {
 				method: 'GET'
 			})
 			.then(function(response) {
-				if (response.status === 200) {
-					document.getElementById('similar').appendChild('p').textContent = response;
-				} else {
-					document.getElementById('similar').textContent = 'Error. Please refresh your browser';
-				}
+				document.getElementById('similar').appendChild('p').textContent = response;
+				//document.getElementById('similar').textContent = 'Error. Please refresh your browser';
 			})
 		);
 		return Promise.all(booksPromises);
